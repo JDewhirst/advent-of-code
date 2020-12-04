@@ -30,11 +30,6 @@ def NumValidDocuments(documents):
     pid = re.compile(r"\b(pid:(\d{9}))\b")
     
     return sum([all([re.search(x,passport) for x in [byr, iyr, eyr, hgt, hcl, ecl, pid]]) for passport in documents])
-    # test = []
-    # for passport in documents:
-        # for x in [byr, iyr, eyr, hgt, hcl, ecl, pid]:
-            # test.append(x.search(passport))
-    # return test
             
     
 auth_fields = {
