@@ -5,5 +5,7 @@ def ReadBP(filename):
     
 def GetIDS(BoardingPasses):
         return {int(item.translate(str.maketrans("FBLR","0101")),2) for item in BoardingPasses}
-      
+    
+def MySeat(SeatIDs):
+        return set(range(32,913)) - SeatIDs
         
