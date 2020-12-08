@@ -16,4 +16,11 @@ def SumGroupUniqueAnswers(data):
                 group_set.add(character)
         num_unique_answers += len(group_set)
     return num_unique_answers
+    
+def SumGrpUnanAnsw(data):
+    num_group_unanimous = 0
+    for group in data:
+        
+    return 
+
    
