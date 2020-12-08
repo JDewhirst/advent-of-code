@@ -29,7 +29,16 @@ def ContainsGold(data, name: str) -> bool:
     data[name][1] = contains
     return contains
     
+def BagsInside(data, name: str) -> int:
+    if data[name][0][0][1] == 0:
+        return 0
+    count = 0
+    for (subname, subcount) in data[name][0]:
+        count += subcount + subcount * BagsInside(data, subname)
+    return count
 
-data = ReadRules("input.txt")
-print(f"Part 1: {sum([ContainsGold(data, bag) for bag in data])}")
+if __name__=="__main__":
+    data = ReadRules("input.txt")
+    print(f"Part 1: {sum([ContainsGold(data, bag) for bag in data])}")
+    print(f"Part 2: {BagsInside(data, 'shiny gold')}")
 
