@@ -19,8 +19,26 @@ def SumGroupUniqueAnswers(data):
     
 def SumGrpUnanAnsw(data):
     num_group_unanimous = 0
-    for group in data:
+    a = [line.split() for line in data]
+    count = 0
+    for group in a:
+        for character in group[0]:
+            CharInAll = True
+            for i in range(1, len(group)):
+                if character not in group[i]:
+                    CharInAll = False
+                    break
+            if CharInAll == True:
+                count += 1
+    return count
+    
         
-    return 
+        
+        
+    return 0
 
+if __name__=="__main__":
+    data = ReadDocuments("input.txt")
+    print(f"Part 1: {SumGroupUniqueAnswers(data)}")
+    print(f"Part 2: {SumGrpUnanAnsw(data)}")
    
