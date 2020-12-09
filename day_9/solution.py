@@ -16,20 +16,31 @@ def FindInvalid(data,preamble_length):
                 if data[j]+data[k] == data[i]:
                     is_sum = True
                 if is_sum: break
+            if is_sum: break
         
         if not is_sum:
             return i, data[i]
         else:
             i += 1
             
-
-    
-
+def FindContigSum(data, invalid):
+    n = len(data)
+    for i in range(n):
+        summation = data[i]
+        for j in range(i+1,n):
+            summation += data[j]
+            if summation == invalid:
+                return data[i:j]
+            elif summation > invalid:
+                break
+ 
 if __name__=="__main__":
     # example.txt has a length 5 preamble and considers the 5 previous numbers
     # input.tt has a length 25 preamble and considers the 25 previous numbers
     data = ReadDocuments("input.txt")
     line, value = FindInvalid(data,25)
-    print(f"First invalid value = {value}")
+    print(f"First invalid value = {value} at line {line}")
+    contigvals = FindContigSum(data,value)
+    print(f"Encryption Weakness = {max(contigvals)+min(contigvals)}")
     
         
