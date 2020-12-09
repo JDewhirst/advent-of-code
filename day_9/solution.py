@@ -23,7 +23,7 @@ def FindInvalid(data,preamble_length):
         else:
             i += 1
             
-def FindContigSum(data, invalid):
+def FindContigValsSum(data, invalid):
     n = len(data)
     for i in range(n):
         summation = data[i]
@@ -36,7 +36,7 @@ def FindContigSum(data, invalid):
  
 if __name__=="__main__":
     # example.txt has a length 5 preamble and considers the 5 previous numbers
-    # input.tt has a length 25 preamble and considers the 25 previous numbers
+    # input.txt has a length 25 preamble and considers the 25 previous numbers
     data = ReadDocuments("input.txt")
     line, value = FindInvalid(data,25)
     print(f"First invalid value = {value} at line {line}")
