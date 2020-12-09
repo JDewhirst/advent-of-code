@@ -40,7 +40,7 @@ if __name__=="__main__":
     data = ReadDocuments("input.txt")
     line, value = FindInvalid(data,25)
     print(f"First invalid value = {value} at line {line}")
-    contigvals = FindContigSum(data,value)
+    contigvals = FindContigValsSum(data,value)
     print(f"Encryption Weakness = {max(contigvals)+min(contigvals)}")
     
         
