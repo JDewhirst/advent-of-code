@@ -81,12 +81,63 @@ def ScanErrorRate(tickets, field_valid_ranges):
             
             if not is_valid:
                 error_rate += ticket[i]
+                invalid_tickets.append(ticket)
                 
             
-    return error_rate
+    return error_rate, invalid_tickets
 
+def DetermineFieldOrder(valid_tickets, field_keys, field_valid_ranges):
+    ordered_fields = dict()
+
+    # scan for each column of each ticket
+    for i in range(len(field_keys)):
+        ordered_fields[i] = list()
+        for k in range(len(field_valid_ranges)):            
+            is_valid_field = True
+            for ticket in valid_tickets:
+                if not IsInRange(ticket[i], field_valid_ranges[k][0]) and not IsInRange(ticket[i], field_valid_ranges[k][1]):
+                    is_valid_field = False
+                    break
+            
+            if is_valid_field:
+                ordered_fields[i].append(field_keys[k])
+                # break
+    
+    is_ordered = False
+
+    while not is_ordered:
+        is_ordered = True
+        for key, value in ordered_fields.items():
+            if len(value) > 1:
+                is_ordered = False
+            elif len(value) == 1:
+                for position in ordered_fields.keys():
+                    if position != key and value[0] in ordered_fields[position]:
+                        ordered_fields[position].remove(value[0])
+
+    return ordered_fields
+    
+    
 if __name__=="__main__":
     filename = "input.txt"
+    
     field_keys, field_valid_ranges, personal_ticket, nearby_tickets = GetFields(filename)
-    error_rate = ScanErrorRate(nearby_tickets, field_valid_ranges)
+    error_rate, invalid_tickets = ScanErrorRate(nearby_tickets, field_valid_ranges)
     print(f"Part 1: Error Rate = {error_rate}")
+    
+    for invalid_ticket in invalid_tickets:
+        nearby_tickets.remove(invalid_ticket)
+        
+    field_order = DetermineFieldOrder(nearby_tickets, field_keys, field_valid_ranges)
+    print(f"Part 2: Field Order = {field_order}")
+    
+    result = 1
+    for key in field_order:
+        #print(field_order[key])
+        if field_order[key][0][:9] == "departure":
+            #print(personal_ticket[key])
+            result *= personal_ticket[key]
+        #print(result)
+        
+    #print(f"Your Ticket {personal_ticket}")
+    print(f"Part 2 Result = {result}")
