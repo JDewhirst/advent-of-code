@@ -21,40 +21,54 @@ def Read(filename):
     return [line.strip() for line in data]
    
 num =  re.compile("[0-9]")
-mul =  re.compile("\*")
-add = re.compile("\+")
-begin_paren = re.compile("\(")
-end_paren = re.compile("\)")
+
+def Operation(result, number, operator):
+    if result == None:
+        return number
+    elif operator == "*":
+        result *= number
+    elif operator == "+":
+        result += number
+    return result
    
-def Evaluate(line):
+def Evaluate(line, position):
     # iterate through string
     result = None
-    i = 0 
-    for i in range(len(line)):
+    operator = None
+    number = None
+    i = position
+    while i < len(line):
         character = line[i]
-        print(i, character, result)
+        #print(i, character, result)
         if character == " ":
+            i += 1
             pass
+        elif character == "(":
+            i, paren_result = Evaluate(line,i+1)
+            result = Operation(result, paren_result, operator)
         elif character == "*" or character == "+":
-            opp = character
+            operator = character
+            i += 1
         elif num.match(character):
             number = int(character)
             if not result:
                 result = int(character)
             else:
-                if opp == "*":
-                    result *= number
-                elif opp == "+":
-                    result += number
-                opp = None
+                result = Operation(result, number, operator)
+                operator = None
+            i += 1
+        elif character == ")":
+            return i+1, result
+            
     return result
         
     
 if __name__=="__main__":
-    filename = "example.txt"
+    filename = "input.txt"
     data = Read(filename)
-    results = []
+    part_1_result = 0
     for line in data:
-        results.append(Evaluate(line))
-    
-    print(f"Part 1: Sum of all expressions = {sum(results)}")
+        #print(line)
+        part_1_result += Evaluate(line,0)
+        
+    print(f"Part 1: Sum of all expressions = {part_1_result}")
